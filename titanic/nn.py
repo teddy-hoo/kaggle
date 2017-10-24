@@ -76,8 +76,8 @@ for df in train, test:
     df['Title'] = normalize(df['Title'])
 
 
-train_set = train[0:600]
-eval_set = train[600:]
+train_set = train[0:700]
+eval_set = train[700:]
 
 
 def next_batch(i=None, df=None):
@@ -167,7 +167,7 @@ with tf.Session(config=tf.ConfigProto(intra_op_parallelism_threads=4)) as sess:
         # ax2.plot(axis, eval_cost, 'g')
         # fg2.canvas.draw()
 
-        if len(axis) % 20 == 0:
+        if len(axis) % 50 == 0:
             plt.figure(1)
             plt.title('accuracy')
             line_up, = plt.plot(axis, train_acc, 'r', label='train')
