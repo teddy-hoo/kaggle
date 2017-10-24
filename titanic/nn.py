@@ -76,8 +76,8 @@ for df in train, test:
     df['Title'] = normalize(df['Title'])
 
 
-train_set = train[0:600]
-eval_set = train[600:]
+train_set = train[0:800]
+eval_set = train[800:]
 
 
 def next_batch(i=None, df=None):
@@ -122,9 +122,9 @@ output_layer = previous_layer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=output_layer, labels=y))
 
 for i in range(len(weights)):
-    cost += 0.009 * tf.nn.l2_loss(weights[i] + biases[i])
+    cost += 0.003 * tf.nn.l2_loss(weights[i] + biases[i])
 
-optimizer = tf.train.AdamOptimizer(0.005).minimize(cost)
+optimizer = tf.train.AdamOptimizer(0.01).minimize(cost)
 
 init = tf.global_variables_initializer()
 
@@ -146,12 +146,12 @@ with tf.Session(config=tf.ConfigProto(intra_op_parallelism_threads=4)) as sess:
     # ax1.set_ylabel('acc')
     # ax2.set_xlabel('iter')
     # ax2.set_ylabel('loss')
-    for epoch in range(2000):
+    for epoch in range(1000):
         avg_cost = 0
-        for i in range(6):
+        for i in range(8):
             batch_x, batch_y = next_batch(i, train_set)
             _, c = sess.run([optimizer, cost], feed_dict={x: batch_x, y: batch_y})
-            avg_cost += c / 6
+            avg_cost += c / 8
 
         train_acc.append(accuracy.eval({x: train_x, y: train_y}))
         eval_acc.append(accuracy.eval({x: eval_x, y: eval_y}))
