@@ -2,7 +2,7 @@
 
 
 import tensorflow as tf
-from mnist.data_provider import (
+from data_provider import (
     train_x,
     train_y,
     eval_x,
@@ -99,3 +99,7 @@ with tf.Session() as sess:
 
     print('test accuracy %g' % accuracy.eval(feed_dict={
         x: eval_x, y_: eval_y, keep_prob: 1.0}))
+
+    predict = tf.argmax(y_conv.eval({x: test_x}), 1).eval()
+
+    output_2_file(predict)
