@@ -11,6 +11,8 @@ from data_provider import (
     output_2_file
 )
 
+import datetime
+
 
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)
@@ -88,18 +90,19 @@ def next_batch(data_set, count=None):
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
-    for i in range(1000):
+    for i in range(20000):
         batch_x = next_batch(train_x, i)
         batch_y = next_batch(train_y, i)
         if i % 100 == 0:
             train_accuracy = accuracy.eval(feed_dict={
                 x: batch_x, y_: batch_y, keep_prob: 1.0})
             print('step %d, training accuracy %g' % (i, train_accuracy))
+            print(datetime.datetime.now())
         train_step.run(feed_dict={x: batch_x, y_: batch_y, keep_prob: 0.5})
 
-    print('test accuracy %g' % accuracy.eval(feed_dict={
-        x: eval_x, y_: eval_y, keep_prob: 1.0}))
+    print('test accuracy %g' % accuracy.eval(feed_dict={x: eval_x, y_: eval_y, keep_prob: 1.0}))
 
-    predict = tf.argmax(y_conv.eval({x: test_x}), 1).eval()
+    predict_one_hot = y_conv.eval(feed_dict={x: test_x, keep_prob: 1.0})
+    predict = tf.argmax(predict_one_hot, 1).eval()
 
     output_2_file(predict)
