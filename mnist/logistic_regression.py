@@ -1,8 +1,7 @@
 # encoding: utf-8
 
 import tensorflow as tf
-import pandas as pd
-from data_provider import (
+from mnist.data_provider import (
     train_x,
     train_y,
     eval_x,

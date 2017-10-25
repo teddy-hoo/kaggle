@@ -1,4 +1,6 @@
-
+.idea
+.DS_Store
+__pycache__
 .idea/dictionaries/lingchuanhu.xml
 .idea/kaggle.iml
 .idea/misc.xml
